@@ -1,0 +1,28 @@
+{
+    "appId": "com.sasuke.editor",
+    "icon": "",
+    "files": [
+        "dist-electron/**/*",
+        "dist-react/**/*",
+        "package.json"
+    ],
+    "mac": {
+        "target": [
+            "dmg",
+            "zip"
+        ]
+    },
+    "linux": {
+        "target": "AppImage",
+        "category": "Utility"
+    },
+    "win": {
+        "target": [
+            "portable"
+            
+        ]
+    },
+    "portable": {
+        "artifactName": "${productName} Portable.${ext}"
+    }
+}
