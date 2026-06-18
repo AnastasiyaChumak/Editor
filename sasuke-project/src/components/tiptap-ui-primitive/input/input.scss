@@ -1,0 +1,64 @@
+:root {
+  --tt-input-placeholder: var(--tt-gray-light-a-400);
+  --tt-input-border: var(--tt-gray-light-a-200);
+  --tt-input-border-focus: var(--tt-gray-light-a-300);
+  /* Добавляем переменную фона для светлой темы */
+  --tt-input-bg: #ffffff; 
+  --tt-input-text: #1a1a1a;
+}
+
+.dark {
+  --tt-input-placeholder: var(--tt-gray-dark-a-400);
+  --tt-input-border: var(--tt-gray-dark-a-200);
+  --tt-input-border-focus: var(--tt-gray-dark-a-300);
+  /* Добавляем переменную фона для темной темы */
+  --tt-input-bg: #1e1e1e; 
+  --tt-input-text: #ffffff;
+}
+
+/* Универсальный сброс для всплывающих элементов */
+[data-radix-popper-content-wrapper],
+[data-role="tooltip"],
+.tooltip,
+.tooltip-content,
+.tiptap-tooltip,
+.radix-tooltip-content {
+  background-color: var(--tt-input-bg) !important; /* Автоматическая смена темы */
+  color: var(--tt-input-text) !important;
+  opacity: 1 !important;
+  z-index: 99999 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  border: 1px solid var(--tt-input-border) !important;
+}
+
+.tiptap-input {
+  width: 100%;
+  min-width: 0;
+  height: 2rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: var(--tt-radius-md);
+  border: 1px solid var(--tt-input-border);
+  /* Заменяем transparent на управляемую переменную */
+  background-color: var(--tt-input-bg);
+  color: var(--tt-input-text);
+  font-size: 1rem;
+  outline: none;
+  transition:
+    color,
+    background-color,
+    border-color 150ms;
+
+  &::placeholder {
+    color: var(--tt-input-placeholder);
+  }
+}
+
+.tiptap-input:focus-visible {
+  border-color: var(--tt-input-border-focus);
+}
+
+@media (min-width: 768px) {
+  .tiptap-input {
+    font-size: 0.875rem;
+  }
+}

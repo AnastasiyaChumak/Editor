@@ -6,7 +6,8 @@
   "main": "dist-electron/main.js",
   "scripts": {
     "dev:react": "vite",
-    "dev:electron": "electron .",
+    "dev:electron": "cross-env NODE_ENV=development electron .",
+    "dev": "concurrently -k \"pnpm dev:react\" \"wait-on http://localhost:5173 && pnpm transpile:electron && pnpm dev:electron\"",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
@@ -14,23 +15,49 @@
     "dist:win": "pnpm run transpile:electron && pnpm run build && electron-builder --win --x64"
   },
   "dependencies": {
+    "@floating-ui/react": "^0.27.19",
+    "@radix-ui/react-dropdown-menu": "^2.1.18",
+    "@radix-ui/react-popover": "^1.1.17",
+    "@tiptap/core": "^3.26.1",
+    "@tiptap/extension-highlight": "^3.26.1",
+    "@tiptap/extension-horizontal-rule": "^3.26.1",
+    "@tiptap/extension-image": "^3.26.1",
+    "@tiptap/extension-list": "^3.26.1",
+    "@tiptap/extension-subscript": "^3.26.1",
+    "@tiptap/extension-superscript": "^3.26.1",
+    "@tiptap/extension-text-align": "^3.26.1",
+    "@tiptap/extension-typography": "^3.26.1",
+    "@tiptap/extensions": "^3.26.1",
+    "@tiptap/pm": "^3.26.1",
+    "@tiptap/react": "^3.26.1",
+    "@tiptap/starter-kit": "^3.26.1",
+    "clsx": "^2.1.1",
+    "lodash.throttle": "^4.1.1",
     "react": "^19.2.6",
-    "react-dom": "^19.2.6"
+    "react-dom": "^19.2.6",
+    "react-hotkeys-hook": "^5.3.2"
   },
   "devDependencies": {
+    "@base-ui/react": "^1.5.0",
     "@eslint/js": "^10.0.1",
-    "@types/node": "^24.12.3",
+    "@types/lodash.throttle": "^4.1.9",
+    "@types/node": "^25.9.3",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
+    "class-variance-authority": "^0.7.1",
+    "concurrently": "^10.0.3",
+    "cross-env": "^10.1.0",
     "electron": "^42.4.0",
     "electron-builder": "^26.15.3",
     "eslint": "^10.3.0",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.6.0",
+    "sass-embedded": "^1.100.0",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.59.2",
-    "vite": "^8.0.12"
+    "vite": "^8.0.12",
+    "wait-on": "^9.0.10"
   }
 }
