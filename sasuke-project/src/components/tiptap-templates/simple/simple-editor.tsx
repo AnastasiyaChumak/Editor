@@ -15,7 +15,6 @@ import { Superscript } from "@tiptap/extension-superscript"
 import { Selection } from "@tiptap/extensions"
 
 // --- UI Primitives ---
-import { Button } from "../../../components/tiptap-ui-primitive/button"
 import { Spacer } from "../../../components/tiptap-ui-primitive/spacer"
 import {
   Toolbar,
@@ -38,6 +37,7 @@ import { HeadingDropdownMenu } from "../../../components/tiptap-ui/heading-dropd
 import { ListDropdownMenu } from "../../../components/tiptap-ui/list-dropdown-menu"
 import { BlockquoteButton } from "../../../components/tiptap-ui/blockquote-button"
 import { CodeBlockButton } from "../../../components/tiptap-ui/code-block-button"
+import { Button } from "../../../components/tiptap-ui-primitive/button"
 import {
   ColorHighlightPopover,
   ColorHighlightPopoverContent,
@@ -64,20 +64,27 @@ import { useCursorVisibility } from "../../../hooks/use-cursor-visibility"
 
 // --- Components ---
 import { ThemeToggle } from "../../../components/tiptap-templates/simple/theme-toggle"
+import { WidthResizer } from "../../../components/other/editor-width"
 
 // --- Styles ---
 import "@/components/tiptap-templates/simple/simple-editor.scss"
 
 import content from "../../../components/tiptap-templates/simple/data/content.json"
 
+const DEFAULT_EDITOR_WIDTH = 648
+
 const MainToolbarContent = ({
   onHighlighterClick,
   onLinkClick,
   isMobile,
+  editorWidth,
+  onWidthChange,
 }: {
   onHighlighterClick: () => void
   onLinkClick: () => void
   isMobile: boolean
+  editorWidth: number
+  onWidthChange: (width: number) => void
 }) => {
   return (
     <>
@@ -101,7 +108,6 @@ const MainToolbarContent = ({
       </ToolbarGroup>
 
       <ToolbarSeparator />
-
       <ToolbarGroup>
         <MarkButton type="bold" />
         <MarkButton type="italic" />
@@ -139,6 +145,10 @@ const MainToolbarContent = ({
       {isMobile && <ToolbarSeparator />}
 
       <ToolbarGroup>
+        <WidthResizer
+          value={editorWidth}
+          onChangeWidth={onWidthChange}
+        />
         <ThemeToggle />
       </ToolbarGroup>
     </>
@@ -182,6 +192,8 @@ export function SimpleEditor() {
   )
   const toolbarRef = useRef<HTMLDivElement>(null)
 
+  const [editorWidth, setEditorWidth] = useState<number>(DEFAULT_EDITOR_WIDTH)
+
   const editor = useEditor({
     immediatelyRender: false,
     editorProps: {
@@ -215,6 +227,19 @@ export function SimpleEditor() {
     content,
   })
 
+  useEffect(() => {
+    if (editor && !editor.isDestroyed) {
+      editor.setOptions({
+        editorProps: {
+          attributes: {
+            class: "simple-editor",
+            style: `max-width: ${editorWidth}px; width: 100%; margin: 0 auto;`,
+          },
+        },
+      })
+    }
+  }, [editorWidth, editor])
+
   const rect = useCursorVisibility({
     editor,
     overlayHeight: toolbarRef.current?.getBoundingClientRect().height ?? 0,
@@ -244,6 +269,8 @@ export function SimpleEditor() {
               onHighlighterClick={() => setMobileView("highlighter")}
               onLinkClick={() => setMobileView("link")}
               isMobile={isMobile}
+              editorWidth={editorWidth}
+              onWidthChange={setEditorWidth}
             />
           ) : (
             <MobileToolbarContent

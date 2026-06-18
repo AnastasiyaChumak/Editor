@@ -1,9 +1,20 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
+:root {
+  --tt-bg-color: #ffffff;
+  --tt-theme-text: var(--tt-gray-light-900);
+  --tt-toolbar-height: 44px;
+}
+
+.dark {
+  --tt-bg-color: #121212;
+  --tt-theme-text: var(--tt-gray-dark-900, #e3e3e3);
+}
+
 .tiptap {
   ::selection {
     color: inherit !important;
-    background: #a4cdfe !important;
+    background: #627893 !important;
     text-shadow: none !important;
     transform: none !important;
     opacity: 1 !important;
@@ -25,85 +36,305 @@ button,
 svg {
   user-select: none !important;
   -webkit-user-select: none !important;
+}
 
-  body {
-    --tt-toolbar-height: 44px;
-    --tt-theme-text: var(--tt-gray-light-900);
+html,
+body {
+  overscroll-behavior-x: none;
+  overscroll-behavior-y: none;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
 
-    .dark & {
-      --tt-theme-text: var(--tt-gray-dark-900);
+body {
+  font-family: "Inter", sans-serif;
+  color: var(--tt-theme-text);
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  background-color: var(--tt-bg-color);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+#root,
+#app {
+  height: 100%;
+  background-color: var(--tt-bg-color);
+}
+
+::-webkit-scrollbar {
+  width: 0.25rem;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--tt-scrollbar-color) transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--tt-scrollbar-color);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.tiptap.ProseMirror {
+  font-family: "DM Sans", sans-serif;
+}
+
+.simple-editor-wrapper {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--tt-bg-color);
+}
+
+.simple-editor-content {
+  max-width: var(--dynamic-editor-width, 648px) !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  background-color: transparent !important;
+}
+
+.simple-editor-content .tiptap.ProseMirror.simple-editor {
+  flex: 1;
+  padding: 3rem 3rem 30vh;
+  background-color: var(--tt-bg-color);
+  color: var(--tt-theme-text);
+
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.simple-editor-content .tiptap.ProseMirror.simple-editor::-webkit-scrollbar {
+  width: 6px !important;
+  height: 0px !important;
+}
+
+.simple-editor-content .tiptap.ProseMirror.simple-editor::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+.simple-editor-content .tiptap.ProseMirror.simple-editor::-webkit-scrollbar-thumb {
+  background-color: rgba(146, 153, 163, 0.3) !important;
+  border-radius: 10px !important;
+}
+
+.simple-editor-content .tiptap.ProseMirror.simple-editor::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(159, 165, 176, 0.5) !important;
+}
+
+.simple-editor-content .tiptap.ProseMirror.simple-editor {
+  scrollbar-width: thin !important;
+  scrollbar-color: rgba(129, 138, 153, 0.3) transparent !important;
+}
+
+@media screen and (max-width: 480px) {
+  .simple-editor-content .tiptap.ProseMirror.simple-editor {
+    padding: 1rem 1.5rem 30vh;
+  }
+}
+
+.dark .tiptap-toolbar,
+.dark header {
+  background-color: #1e1e1e !important;
+  border-color: #7b7676 !important;
+  color: #e3e3e3 !important;
+}
+
+.tiptap-toolbar button svg,
+.tiptap-button-icon {
+  color: var(--tt-theme-text) !important;
+  fill: currentColor;
+}
+
+.tiptap-toolbar {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 0.25rem !important;
+  padding-right: 2.5rem !important;
+}
+
+.tiptap-toolbar button:last-child {
+  margin-left: auto !important;
+  margin-right: 1rem !important;
+}
+
+.tiptap-toolbar button:last-child {
+  margin-left: auto;
+}
+
+html,
+body,
+#root,
+#app,
+.simple-editor-wrapper {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  background-color: rgb(227, 189, 189) !important;
+}
+
+.simple-editor-content {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 auto !important;
+  background-color: transparent !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+}
+
+.editor-resizer-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+}
+
+.resizer-icon {
+  color: var(--tt-theme-text);
+  opacity: 0.6;
+  flex-shrink: 0;
+}
+
+.resizer-value {
+  font-size: 12px;
+  color: var(--tt-theme-text);
+  opacity: 0.6;
+  min-width: 38px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.resizer-input {
+  --fill: 50%;
+  width: 110px;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(to right,
+      var(--tt-theme-text) 0%,
+      var(--tt-theme-text) var(--fill),
+      rgba(128, 128, 128, 0.25) var(--fill),
+      rgba(128, 128, 128, 0.25) 100%);
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+  cursor: pointer;
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--tt-bg-color);
+    border: 1.5px solid var(--tt-theme-text);
+    cursor: pointer;
+    transition: transform 0.12s ease;
+
+    &:hover {
+      transform: scale(1.15);
     }
   }
 
-  body {
-    font-family: "Inter", sans-serif;
-    color: var(--tt-theme-text);
-    font-optical-sizing: auto;
-    font-weight: 400;
-    font-style: normal;
-    padding: 0;
-    overscroll-behavior-y: none;
+  &::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--tt-bg-color);
+    border: 1.5px solid var(--tt-theme-text);
+    cursor: pointer;
   }
 
-  html,
-  body {
-    overscroll-behavior-x: none;
-  }
-
-  html,
-  body,
-  #root,
-  #app {
-    height: 100%;
-    background-color: var(--tt-bg-color);
-  }
-
-  ::-webkit-scrollbar {
-    width: 0.25rem;
-  }
-
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: var(--tt-scrollbar-color) transparent;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background-color: var(--tt-scrollbar-color);
-    border-radius: 9999px;
-  }
-
-  ::-webkit-scrollbar-track {
+  &::-moz-range-track {
+    height: 4px;
+    border-radius: 999px;
     background: transparent;
   }
+}
 
-  .tiptap.ProseMirror {
-    font-family: "DM Sans", sans-serif;
-  }
+.resizer-icon {
+  color: var(--tt-color-text-gray, #8a8a8a);
+  flex-shrink: 0;
+}
 
-  .simple-editor-wrapper {
-    width: 100vw;
-    height: 100vh;
-    overflow: auto;
-  }
+.resizer-value {
+  font-size: 12px;
+  color: var(--tt-color-text-gray, #8a8a8a);
+  min-width: 38px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
 
-  .simple-editor-content {
-    max-width: 648px;
-    width: 100%;
-    margin: 0 auto;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-  }
+.resizer-input {
+  --fill: 50%;
+  width: 110px;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(to right,
+      var(--tt-color-text-gray, #8a8a8a) 0%,
+      var(--tt-color-text-gray, #8a8a8a) var(--fill),
+      var(--tt-bg-color-contrast, #e5e5e5) var(--fill),
+      var(--tt-bg-color-contrast, #e5e5e5) 100%);
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+  cursor: pointer;
 
-  .simple-editor-content .tiptap.ProseMirror.simple-editor {
-    flex: 1;
-    padding: 3rem 3rem 30vh;
-  }
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--tt-bg-color, #fff);
+    border: 1.5px solid var(--tt-color-text-gray, #8a8a8a);
+    cursor: pointer;
+    transition: transform 0.12s ease, border-color 0.12s ease;
 
-  @media screen and (max-width: 480px) {
-    .simple-editor-content .tiptap.ProseMirror.simple-editor {
-      padding: 1rem 1.5rem 30vh;
+    &:hover {
+      transform: scale(1.15);
+      border-color: var(--tt-color-text, #1a1a1a);
     }
   }
+
+  &::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--tt-bg-color, #fff);
+    border: 1.5px solid var(--tt-color-text-gray, #8a8a8a);
+    cursor: pointer;
+  }
+
+  &::-moz-range-track {
+    height: 4px;
+    border-radius: 999px;
+    background: transparent;
+  }
+}
+
+.simple-editor-content .tiptap.ProseMirror.simple-editor::-webkit-scrollbar {
+  width: 6px !important;
+  height: 0px !important;
+}
+
+.simple-editor-content .tiptap.ProseMirror.simple-editor::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+.simple-editor-content .tiptap.ProseMirror.simple-editor::-webkit-scrollbar-thumb {
+  background-color: var(--tt-scrollbar-color) !important;
+  border-radius: 10px !important;
+}
+
+.simple-editor-content .tiptap.ProseMirror.simple-editor::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(159, 165, 176, 0.5) !important;
 }
