@@ -70,6 +70,7 @@ import { WidthResizer } from "../../../components/other/editor-width"
 import "@/components/tiptap-templates/simple/simple-editor.scss"
 
 import content from "../../../components/tiptap-templates/simple/data/content.json"
+import ThemeDropdownMenu from "./theme-dropdown-menu"
 
 const DEFAULT_EDITOR_WIDTH = 648
 
@@ -149,7 +150,20 @@ const MainToolbarContent = ({
           value={editorWidth}
           onChangeWidth={onWidthChange}
         />
-        <ThemeToggle />
+        {/* <ThemeToggle />  */}
+
+
+
+
+        <ToolbarGroup>
+          <ThemeDropdownMenu modal={false} levels={[1, 2, 3, 4]} />
+          
+
+        </ToolbarGroup>
+
+
+
+
       </ToolbarGroup>
     </>
   )
@@ -192,7 +206,12 @@ export function SimpleEditor() {
   )
   const toolbarRef = useRef<HTMLDivElement>(null)
 
-  const [editorWidth, setEditorWidth] = useState<number>(DEFAULT_EDITOR_WIDTH)
+  const [editorWidth, setEditorWidth] = useState<number>(() => {
+    if (typeof window === "undefined") return DEFAULT_EDITOR_WIDTH
+    const saved = window.localStorage.getItem("editor-width")
+    const parsed = saved ? Number(saved) : NaN
+    return Number.isFinite(parsed) ? parsed : DEFAULT_EDITOR_WIDTH
+  })
 
   const editor = useEditor({
     immediatelyRender: false,
@@ -228,17 +247,12 @@ export function SimpleEditor() {
   })
 
   useEffect(() => {
-    if (editor && !editor.isDestroyed) {
-      editor.setOptions({
-        editorProps: {
-          attributes: {
-            class: "simple-editor",
-            style: `max-width: ${editorWidth}px; width: 100%; margin: 0 auto;`,
-          },
-        },
-      })
-    }
-  }, [editorWidth, editor])
+    document.documentElement.style.setProperty(
+      "--dynamic-editor-width",
+      `${editorWidth}px`
+    )
+    window.localStorage.setItem("editor-width", String(editorWidth))
+  }, [editorWidth])
 
   const rect = useCursorVisibility({
     editor,
@@ -259,8 +273,8 @@ export function SimpleEditor() {
           style={{
             ...(isMobile
               ? {
-                  bottom: `calc(100% - ${height - rect.y}px)`,
-                }
+                bottom: `calc(100% - ${height - rect.y}px)`,
+              }
               : {}),
           }}
         >
